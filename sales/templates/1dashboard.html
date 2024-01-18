@@ -1,0 +1,53 @@
+<!-- myapp/templates/myapp/user_dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h2>Welcome, {{ user.username }}!</h2>
+    <p>This is your user dashboard.</p>
+    <a href="/user/logout">Logout</a>
+
+    <h3>Summary:</h3>
+    <p>Total Sales Amount: RM {{ total_sales_amount }}</p>
+    <p>Number of Sales: {{ num_sales }}</p>
+    <p>Total Items Sold: {{ total_items_sold }}</p>
+
+    <h3>Total Sales per Day (Graph):</h3>
+    <div id="totalSalesGraph"></div>
+
+      <h3>Your Sales:</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Sale</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in user_sales %}
+                <tr>
+                    <td>{{ sale.product }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>RM {{ sale.price }}</td>
+                    <td>RM {{ sale.total_sale }}</td>
+                    <td>{{ sale.date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+<script>
+    // JavaScript code for rendering the Plotly graph
+    var graphDiv = document.getElementById('totalSalesGraph');
+    var graphJson = {{ graph_json|safe }};
+    Plotly.react(graphDiv, graphJson);
+</script>
+
+</html>
